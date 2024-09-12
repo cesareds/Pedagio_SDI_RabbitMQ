@@ -8,26 +8,25 @@ import dados.Provedor;
 public class Cabine {
     public Cabine() {
     }
-    public Cabine(Fila fila, int dinheiro) {
-        this.fila = fila;
-        this.dinheiro = dinheiro;
-    }
 
     Fila fila = new Fila();
     private int dinheiro = 0;
 
-    public String receberResposta() {
-        // sepa vai precisar mexer no rabbit.
-        return "resposta";
-    }
-    public void liberarCarro() {
-        // sepa vai precisar mexer no rabbit.
+    public Mensagem liberarCarro() {
         this.dinheiro += fila.getMensagens().getFirst().getCarro().getPagamento();
+        Mensagem mensagem = fila.getMensagens().getFirst();
         fila.getMensagens().removeFirst();
+        return mensagem;
     }
-    public void lancarCarro(String placa, String modelo, int eixos){
+    public void lancarCarro(String placa, String modelo, char sticker, int eixos){
         Provedor adesivo = fila.getProvedor();
-        int pagamento = adesivo.getTaxa() * eixos;
+        int pagamento;
+        if( sticker == 'n'){
+            pagamento = adesivo.getTaxa() * eixos * 2; //QUEM NAO TEM ADESIVO PAGA 2X
+        }else{
+            pagamento = adesivo.getTaxa() * eixos;
+        }
+        System.out.println(adesivo.getTaxa());
         Carro carro = new Carro(placa, modelo, pagamento, eixos, adesivo);
         Mensagem mensagem = new Mensagem(carro);
         fila.getMensagens().add(mensagem);
@@ -39,8 +38,6 @@ public class Cabine {
 
     public int getDinheiro() {
         return dinheiro;
-    }
-    public void setDinheiro(int value) {
     }
 
     @Override

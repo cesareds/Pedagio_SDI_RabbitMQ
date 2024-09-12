@@ -1,18 +1,21 @@
 package dados;
 
 public class Mensagem {
-    public Mensagem() {
-    }
     public Mensagem(Carro carro) {
         this.carro = carro;
+        this.pagamento = carro.getPagamento();
     }
-    Carro carro = new Carro();
-
+    Carro carro;
+    int pagamento;
     public Carro getCarro() {
         return carro;
     }
 
-    public void setCarro(Carro carro) {
-        this.carro = carro;
+    @Override
+    public String toString() {
+        return "Mensagem{" +
+                "carro=" + carro +
+                "pagamento=" + pagamento +
+                '}';
     }
 }

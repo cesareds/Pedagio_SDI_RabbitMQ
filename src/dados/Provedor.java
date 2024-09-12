@@ -19,7 +19,7 @@ public class Provedor {
 
 
     public int getTaxa() {
-        return 0;
+        return taxa;
     }
     public void setTaxa(int value) {
     }

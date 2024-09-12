@@ -6,9 +6,16 @@ import dados.Mensagem;
 import dados.Provedor;
 import sistema.Cabine;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,11 +23,30 @@ public class Main {
     }
     private static final Scanner scannerInt = new Scanner(System.in);
     private static final Scanner scannerString = new Scanner(System.in);
+    private static final String QUEUE_NAME = "PEDAGIO";
     public static ArrayList<Cabine> cabines = new ArrayList<>();
     public static int dinheiroTotal = 0;
 
 
-    public static void connection() {
+    public static void connection() throws IOException, TimeoutException {
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("localhost");
+        try {
+            Connection connection = factory.newConnection();
+            Channel channel = connection.createChannel();
+
+            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+            String msg = "Pedagio";
+            channel.basicPublish("", QUEUE_NAME, null, msg.getBytes(StandardCharsets.UTF_8));
+            System.out.println(" [x] Sent '" + msg + "'");
+
+            channel.close();
+            connection.close();
+        } catch (IOException | TimeoutException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
     public static void menu() {
         System.out.println("LC Pedágios à sua disposição!");

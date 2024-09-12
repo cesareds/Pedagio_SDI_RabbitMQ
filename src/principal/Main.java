@@ -17,8 +17,10 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
+import static java.lang.foreign.MemorySegment.NULL;
+
 public class Main {
-    public static void main(String[] args) throws IOException, TimeoutException {
+    public static void main(String[] args) throws Exception {
         try {
             runMenu();
         } catch (IOException | TimeoutException e) {
@@ -54,9 +56,9 @@ public class Main {
     }
     public static void menu() {
         System.out.println("LC Pedágios à sua disposição!");
-        System.out.println("1. Construir Cabine⛩️.\n2. Conectar🕴️.\n3. Lançar carro🚗.\n4. Começar fila👯‍♀️.\n5. Escrever mensagem📝.\n0. Sair😭");
+        System.out.println("1. Construir Cabine⛩️.\n2. Conectar🕴️.\n3. Lançar carro🚗.\n4. Aumentar dinheiro👯‍♀️.\n5. Ligar server📝.\n0. Sair😭");
     }
-    public static void runMenu() throws IOException, TimeoutException {
+    public static void runMenu() throws Exception {
         int i = 0;
         do{
             menu();
@@ -78,6 +80,8 @@ public class Main {
                 case 4:
                     aumentaODinheiro();
                     break;
+                case 5:
+
                 case 0:
                     System.out.println("Boa Viagem👋");
                     break;
@@ -138,8 +142,8 @@ public class Main {
     }
     public static void contaODinheiro(){
         int money = 0;
-        for (int i = 0; i<cabines.size(); i++){
-            money += cabines.get(i).getDinheiro();
+        for (Cabine cabine : cabines) {
+            money += cabine.getDinheiro();
         }
         dinheiroTotal = money;
     }

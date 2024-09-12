@@ -14,7 +14,7 @@ public class Cabine {
     }
 
     Fila fila = new Fila();
-    private int dinheiro;
+    private int dinheiro = 0;
 
     public String receberResposta() {
         // sepa vai precisar mexer no rabbit.
@@ -38,7 +38,7 @@ public class Cabine {
     }
 
     public int getDinheiro() {
-        return 0;
+        return dinheiro;
     }
     public void setDinheiro(int value) {
     }

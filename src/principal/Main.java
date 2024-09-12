@@ -18,14 +18,18 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 public class Main {
-    public static void main(String[] args) {
-        runMenu();
+    public static void main(String[] args) throws IOException, TimeoutException {
+        try {
+            runMenu();
+        } catch (IOException | TimeoutException e) {
+            throw new RuntimeException(e);
+        }
     }
     private static final Scanner scannerInt = new Scanner(System.in);
     private static final Scanner scannerString = new Scanner(System.in);
     private static final String QUEUE_NAME = "PEDAGIO";
     public static ArrayList<Cabine> cabines = new ArrayList<>();
-    public static int dinheiroTotal = 0;
+    public static int dinheiroTotal;
 
 
     public static void connection() throws IOException, TimeoutException {
@@ -50,9 +54,9 @@ public class Main {
     }
     public static void menu() {
         System.out.println("LC Pedágios à sua disposição!");
-        System.out.println("1. Construir Cabine⛩️.\n2. Abrir provedor🕴️.\n3. Lançar carro🚗.\n4. Começar fila👯‍♀️.\n5. Escrever mensagem📝.\n0. Sair😭");
+        System.out.println("1. Construir Cabine⛩️.\n2. Conectar🕴️.\n3. Lançar carro🚗.\n4. Começar fila👯‍♀️.\n5. Escrever mensagem📝.\n0. Sair😭");
     }
-    public static void runMenu(){
+    public static void runMenu() throws IOException, TimeoutException {
         int i = 0;
         do{
             menu();
@@ -61,8 +65,18 @@ public class Main {
                 case 1:
                     construirCabine();
                     break;
+                case 2:
+                    try {
+                        connection();
+                    } catch (IOException | TimeoutException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
                 case 3:
                     lancarCarro();
+                    break;
+                case 4:
+                    aumentaODinheiro();
                     break;
                 case 0:
                     System.out.println("Boa Viagem👋");
@@ -119,6 +133,8 @@ public class Main {
         System.out.println(cabines.toString());
         int seatN = scannerInt.nextInt();
         cabines.get(seatN).liberarCarro();
+        contaODinheiro();
+        System.out.println("Dinheiro:\t" + dinheiroTotal);
     }
     public static void contaODinheiro(){
         int money = 0;

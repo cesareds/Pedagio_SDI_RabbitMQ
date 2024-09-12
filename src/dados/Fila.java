@@ -11,25 +11,13 @@ public class Fila {
     }
     private ArrayList<Mensagem> mensagens = new ArrayList<>();
     private Provedor provedor;
-    private void liberar() {
-    }
 
     public ArrayList<Mensagem> getMensagens() {
         return mensagens;
     }
-
-    public void setMensagens(ArrayList<Mensagem> mensagens) {
-        this.mensagens = mensagens;
-    }
-
     public Provedor getProvedor() {
         return provedor;
     }
-
-    public void setProvedor(Provedor provedor) {
-        this.provedor = provedor;
-    }
-
     @Override
     public String toString() {
         return "Fila{" +

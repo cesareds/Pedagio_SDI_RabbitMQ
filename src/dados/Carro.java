@@ -1,8 +1,6 @@
 package dados;
 
 public class Carro {
-    public Carro() {
-    }
     public Carro(String placa, String modelo, int pagamento, int eixos, Provedor adesivo) {
         this.placa = placa;
         this.modelo = modelo;

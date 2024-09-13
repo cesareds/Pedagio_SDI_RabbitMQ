@@ -6,14 +6,13 @@ import dados.Mensagem;
 import dados.Provedor;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static java.lang.Thread.*;
 
 public class Cabine implements Runnable{
     @Override
@@ -33,12 +32,12 @@ public class Cabine implements Runnable{
                 Thread.sleep(ThreadLocalRandom.current().nextInt(10, 50)); // 1 a 5 segundos
                 String placa = UUID.randomUUID().toString().substring(0, 7).toUpperCase();
                 String modelo = todos_os_modelos_de_carros_possiveis.getFirst();
+                System.out.print(modelo + " ");
                 todos_os_modelos_de_carros_possiveis.removeFirst();
-                // Gerar um carro aleatório
                 lancarCarro(placa, modelo, 'n', ThreadLocalRandom.current().nextInt(2, 5));
             }
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            currentThread().interrupt();
         }
     }
 
@@ -48,10 +47,10 @@ public class Cabine implements Runnable{
     Fila fila = new Fila();
     private int dinheiro = 0;
 
-    private ArrayList<String> todos_os_modelos_de_carros_possiveis = new ArrayList<>();
+    private final ArrayList<String> todos_os_modelos_de_carros_possiveis = new ArrayList<>();
 
-    public Mensagem liberarCarro() throws InterruptedException {
-        Mensagem mensagem = null;
+    public Mensagem liberarCarro() {
+        Mensagem mensagem;
         try {
             mensagem = fila.getMensagens().take();
             this.dinheiro += mensagem.getCarro().getPagamento();
@@ -66,9 +65,6 @@ public class Cabine implements Runnable{
         Carro carro = new Carro(placa, modelo, pagamento, eixos, adesivo);
         Mensagem mensagem = new Mensagem(carro);
         fila.getMensagens().add(mensagem);
-    }
-    public void gerador(){
-
     }
     public void setFila(Fila fila) {
         this.fila = fila;

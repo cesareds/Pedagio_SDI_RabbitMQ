@@ -43,12 +43,10 @@ public class Main {
         } catch (IOException | TimeoutException e) {
             throw new RuntimeException(e);
         }
-
-
     }
     public static void menu() {
         System.out.println("LC Pedágios à sua disposição!");
-        System.out.println("1. Construir Cabine⛩️.\n2. Mandar Para Servidor🕴️.\n3. Botar 1 carro🚗.\n4. Aumentar dinheiro (Legacy️) 👯.\n5. Botar 150 carros!😱.\n6. Botar 150 carros em todas as cabines.🚨\n7.Combo 🍔.\n0. Sair😭");
+        System.out.println("1. Construir Cabine⛩️.\n2. Mandar Para Servidor🕴️.\n3. Botar 1 carro🚗.\n4. Contar dinheiro🤑.\n5. Botar 150 carros! 😱.\n6. Botar 150 carros em todas as cabines.🚨\n7. Combo 🍔.\n0. Sair😭");
     }
     public static void runMenu() throws InterruptedException {
         int i;
@@ -66,7 +64,7 @@ public class Main {
                     lancarCarro();
                     break;
                 case 4:
-                    aumentaODinheiro();
+                    contaODinheiro();
                     break;
                 case 5:
                     bota150();
@@ -145,6 +143,7 @@ public class Main {
             money += cabine.getDinheiro();
         }
         dinheiroTotal = money;
+        System.out.println(dinheiroTotal);
     }
     public static void bota150(){
         System.out.println("qual cabine");
@@ -154,5 +153,8 @@ public class Main {
     }
     public static void pico(){
         cabines.forEach(Cabine::run);
+    }
+    public static void combo(){
+        System.out.println("Comming soon!");
     }
 }

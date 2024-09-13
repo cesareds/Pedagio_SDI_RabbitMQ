@@ -4,6 +4,7 @@ import dados.Carro;
 import dados.Fila;
 import dados.Mensagem;
 import dados.Provedor;
+import principal.Main;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,7 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
-
 import static java.lang.Thread.*;
 
 public class Cabine implements Runnable{
@@ -29,7 +29,7 @@ public class Cabine implements Runnable{
         }
         try {
             while (!todos_os_modelos_de_carros_possiveis.isEmpty()) {
-                Thread.sleep(ThreadLocalRandom.current().nextInt(10, 50)); // 1 a 5 segundos
+                Thread.sleep(ThreadLocalRandom.current().nextInt(10, 50));
                 String placa = UUID.randomUUID().toString().substring(0, 7).toUpperCase();
                 String modelo = todos_os_modelos_de_carros_possiveis.getFirst();
                 System.out.print(modelo + " ");
@@ -38,6 +38,16 @@ public class Cabine implements Runnable{
             }
         } catch (InterruptedException e) {
             currentThread().interrupt();
+        }
+        try{
+            while(!fila.getMensagens().isEmpty()){
+                Thread.sleep(ThreadLocalRandom.current().nextInt(10, 50));
+                Mensagem mensagem = fila.getMensagens().take();
+                this.dinheiro += mensagem.getCarro().getPagamento();
+                Main.connection(mensagem);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -72,6 +82,7 @@ public class Cabine implements Runnable{
     public int getDinheiro() {
         return dinheiro;
     }
+
     @Override
     public String toString() {
         return "\nCabine{" +

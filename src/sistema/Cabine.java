@@ -18,7 +18,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Cabine implements Runnable{
     @Override
     public void run() {
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("marcas-e-modelos/marcas-carros.csv"))){
+        System.out.println(666);
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("/Users/cesardesouza/IdeaProjects/Pedagio/marcas-e-modelos/marcas-carros.csv"))){
             String l;
             bufferedReader.readLine();
             while ((l=bufferedReader.readLine())!=null){
@@ -29,13 +30,13 @@ public class Cabine implements Runnable{
             throw new RuntimeException(e);
         }
         try {
-            while (true) {
-                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000)); // 1 a 5 segundos
+            while (!todos_os_modelos_de_carros_possiveis.isEmpty()) {
+                Thread.sleep(ThreadLocalRandom.current().nextInt(10, 50)); // 1 a 5 segundos
                 String placa = UUID.randomUUID().toString().substring(0, 7).toUpperCase();
                 String modelo = todos_os_modelos_de_carros_possiveis.getFirst();
                 todos_os_modelos_de_carros_possiveis.removeFirst();
                 // Gerar um carro aleatório
-                lancarCarro(placa, "ModeloX", 'n', ThreadLocalRandom.current().nextInt(2, 5));
+                lancarCarro(placa, modelo, 'n', ThreadLocalRandom.current().nextInt(2, 5));
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -47,6 +48,7 @@ public class Cabine implements Runnable{
     }
     Fila fila = new Fila();
     private int dinheiro = 0;
+
     private ArrayList<String> todos_os_modelos_de_carros_possiveis = new ArrayList<>();
 
     public Mensagem liberarCarro() throws InterruptedException {

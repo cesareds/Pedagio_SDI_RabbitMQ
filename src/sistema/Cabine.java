@@ -18,7 +18,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Cabine implements Runnable{
     @Override
     public void run() {
-        System.out.println(666);
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader("/Users/cesardesouza/IdeaProjects/Pedagio/marcas-e-modelos/marcas-carros.csv"))){
             String l;
             bufferedReader.readLine();

@@ -48,7 +48,7 @@ public class Main {
     }
     public static void menu() {
         System.out.println("LC Pedágios à sua disposição!");
-        System.out.println("1. Construir Cabine⛩️.\n2. Mandar Para Servidor🕴️.\n3. Botar 1 carro🚗.\n4. Aumentar dinheiro👯‍♀️.\n5. Botar 150 carros!😱.\n0. Sair😭");
+        System.out.println("1. Construir Cabine⛩️.\n2. Mandar Para Servidor🕴️.\n3. Botar 1 carro🚗.\n4. Aumentar dinheiro (Legacy️) 👯.\n5. Botar 150 carros!😱.\n6. Botar 150 carros em todas as cabines.🚨\n7.Combo 🍔.\n0. Sair😭");
     }
     public static void runMenu() throws InterruptedException {
         int i;
@@ -70,8 +70,8 @@ public class Main {
                     break;
                 case 5:
                     bota150();
-//                    cabines.getFirst().run();
-                    //cabines.forEach(Cabine::run);
+                case 6:
+                    pico();
                     break;
                 case 0:
                     System.out.println("Boa Viagem👋");

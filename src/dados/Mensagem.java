@@ -14,8 +14,8 @@ public class Mensagem {
     @Override
     public String toString() {
         return "Mensagem{" +
-                "carro=" + carro +
                 "pagamento=" + pagamento +
+                "carro=" + carro +
                 '}';
     }
 }

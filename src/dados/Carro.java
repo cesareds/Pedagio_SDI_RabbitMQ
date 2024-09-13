@@ -20,8 +20,10 @@ public class Carro {
 
     @Override
     public String toString() {
-        return "Carro{" +
-                "eixos=" + eixos +
-                '}';
+        return "-----" +
+                "placa='" + placa + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", eixos=" + eixos +
+                "-----\n\t";
     }
 }

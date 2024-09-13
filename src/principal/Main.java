@@ -17,7 +17,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         runMenu();
     }
     private static final Scanner scannerInt = new Scanner(System.in);
@@ -33,10 +33,8 @@ public class Main {
         try {
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
-
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
             String msg = mensagem.toString();
-
             channel.basicPublish("", QUEUE_NAME, null, msg.getBytes(StandardCharsets.UTF_8));
             System.out.println(" [x] Sent '" + msg + "'");
 
@@ -52,7 +50,7 @@ public class Main {
         System.out.println("LC Pedágios à sua disposição!");
         System.out.println("1. Construir Cabine⛩️.\n2. Mandar Para Servidor🕴️.\n3. Lançar carro🚗.\n4. Aumentar dinheiro👯‍♀️.\n5. Ligar server📝.\n0. Sair😭");
     }
-    public static void runMenu()  {
+    public static void runMenu() throws InterruptedException {
         int i;
         do{
             menu();
@@ -71,7 +69,8 @@ public class Main {
                     aumentaODinheiro();
                     break;
                 case 5:
-
+                    cabines.getFirst().run();
+                    break;
                 case 0:
                     System.out.println("Boa Viagem👋");
                     break;
@@ -80,11 +79,10 @@ public class Main {
             }
         }while(i>0);
     }
-    public static void mandarMensagem(){
+    public static void mandarMensagem() throws InterruptedException {
         System.out.println("De qual cabine?");
         System.out.println(cabines.toString());
         int seatN = scannerInt.nextInt();
-
         Mensagem mensagem = cabines.get(seatN).liberarCarro();
         try {
             connection(mensagem);
@@ -127,11 +125,11 @@ public class Main {
     }
     public static Fila comecarFila(){
         Provedor provedor = abrirProvedor();
-        Fila fila = new Fila(new ArrayList<>(), provedor);
+        Fila fila = new Fila(provedor);
         provedor.setFila(fila);
         return fila;
     }
-    public static void aumentaODinheiro(){
+    public static void aumentaODinheiro() throws InterruptedException {
         System.out.println("cabine vítima:");
         System.out.println(cabines.toString());
         int seatN = scannerInt.nextInt();

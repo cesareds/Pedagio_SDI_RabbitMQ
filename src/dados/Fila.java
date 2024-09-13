@@ -1,18 +1,18 @@
 package dados;
 
-import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Fila {
     public Fila() {
     }
-    public Fila(ArrayList<Mensagem> mensagens, Provedor provedor) {
-        this.mensagens = mensagens;
+    public Fila(Provedor provedor) {
         this.provedor = provedor;
     }
-    private ArrayList<Mensagem> mensagens = new ArrayList<>();
+    private BlockingQueue<Mensagem> mensagens = new LinkedBlockingQueue<>();
     private Provedor provedor;
 
-    public ArrayList<Mensagem> getMensagens() {
+    public BlockingQueue<Mensagem> getMensagens() {
         return mensagens;
     }
     public Provedor getProvedor() {
@@ -22,7 +22,7 @@ public class Fila {
     public String toString() {
         return "Fila{" +
                 "mensagens=" + mensagens +
-                ", provedor=" + provedor +
-                '}';
+                "\tprovedor=" + provedor +
+                "\n}";
     }
 }

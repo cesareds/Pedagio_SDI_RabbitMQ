@@ -6,6 +6,7 @@ import dados.Mensagem;
 import dados.Provedor;
 import principal.Main;
 
+import java.util.LinkedList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,7 +20,7 @@ import static java.lang.Thread.*;
 public class Cabine implements Runnable{
     @Override
     public void run() {
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("/Users/cesardesouza/IdeaProjects/Pedagio/marcas-e-modelos/marcas-carros.csv"))){
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("/nishome/u08387785938/pedagio/Pedagio/marcas-e-modelos/marcas-carros.csv"))){
             String l;
             bufferedReader.readLine();
             while ((l=bufferedReader.readLine())!=null){
@@ -59,7 +60,7 @@ public class Cabine implements Runnable{
     Fila fila = new Fila();
     private int dinheiro = 0;
 
-    private final ArrayList<String> todos_os_modelos_de_carros_possiveis = new ArrayList<>();
+    private final LinkedList<String> todos_os_modelos_de_carros_possiveis = new LinkedList<>();
 
     public Mensagem liberarCarro() {
         Mensagem mensagem;

@@ -18,11 +18,14 @@ public class Provedor {
         this.fila = fila;
     }
 
+    public String getiD() {
+        return iD;
+    }
+
     @Override
     public String toString() {
         return "Provedor{" +
                 "iD='" + iD + '\'' +
-                ", taxa=" + taxa +
                 '}';
     }
 }

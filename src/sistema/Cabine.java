@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeoutException;
+
 import static java.lang.Thread.*;
 
 public class Cabine implements Runnable{
@@ -34,19 +36,19 @@ public class Cabine implements Runnable{
                 String modelo = todos_os_modelos_de_carros_possiveis.getFirst();
                 System.out.print(modelo + " ");
                 todos_os_modelos_de_carros_possiveis.removeFirst();
-                lancarCarro(placa, modelo, 'n', ThreadLocalRandom.current().nextInt(2, 5));
-            }
-        } catch (InterruptedException e) {
-            currentThread().interrupt();
-        }
-        try{
-            while(!fila.getMensagens().isEmpty()){
-                Thread.sleep(ThreadLocalRandom.current().nextInt(10, 50));
-                Mensagem mensagem = fila.getMensagens().take();
+                char sticker;
+                if (ThreadLocalRandom.current().nextInt(0, 1) == 1){
+                    sticker = 's';
+                }else{
+                    sticker = 'n';
+                }
+                Mensagem mensagem = lancarCarro(placa, modelo, sticker, ThreadLocalRandom.current().nextInt(2, 5));
                 this.dinheiro += mensagem.getCarro().getPagamento();
                 Main.connection(mensagem);
             }
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
+            currentThread().interrupt();
+        } catch (IOException | TimeoutException e) {
             throw new RuntimeException(e);
         }
     }
@@ -69,12 +71,13 @@ public class Cabine implements Runnable{
         }
         return mensagem;
     }
-    public void lancarCarro(String placa, String modelo, char sticker, int eixos){
+    public Mensagem lancarCarro(String placa, String modelo, char sticker, int eixos){
         Provedor adesivo = fila.getProvedor();
         int pagamento = (sticker == 's') ? adesivo.getTaxa() * eixos : adesivo.getTaxa() * eixos * 2; //SEM ADESIVO PAGA 2X
         Carro carro = new Carro(placa, modelo, pagamento, eixos, adesivo);
         Mensagem mensagem = new Mensagem(carro);
         fila.getMensagens().add(mensagem);
+        return mensagem;
     }
     public void setFila(Fila fila) {
         this.fila = fila;

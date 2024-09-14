@@ -13,7 +13,7 @@ public class Mensagem {
 
     @Override
     public String toString() {
-        return "Mensagem{" +
+        return carro.adesivo.getiD() + "#Mensagem{" +
                 "pagamento=" + pagamento +
                 "carro=" + carro +
                 '}';
